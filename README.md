@@ -1,8 +1,6 @@
 # JBD2SOLIS
 Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using Pylontech CAN bus protocol.
 
-Inspired by https://github.com/loopyengineeringco/Daly2Sofar 
-
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on a Solis inverter 
@@ -47,12 +45,17 @@ RJ45 CONNECTOR
 CAN bus Cable:  H (Blue) to pin 4 and L (Blue/White) to pin 5,   Ground to pin 2.
 
 CODE                                                                                    
-Now look for the lines and check:
+Look for the lines in the code and change if required:                                       
 
-MCP_CAN CAN0(10); - (Set CS to pin 10)                                                   
-if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ) == CAN_OK) - (must be set to 500BPS and 8MHZ )                                    
+MCP_CAN CAN0(10); - (Set CS to Nano pin 10)                                                   
+if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ) == CAN_OK) - (must be set to 500BPS but 8MHZ can be changed )                                    
 CAN0.setMode(MCP_NORMAL); - (Set to normal mode to allow messages to be transmitted)                            
-SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5V, Gnd)                                                                              
+SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5V, Gnd) 
+
+float batteryChargeVoltage = 56;                                     
+float ChargeCurrentLimit = 20;                                   
+float DischargeCurrentLimit  = 60;                      
+float StateOfHealth  = 100;                                   
 
 CANbus OUTPUT SAMPLE                                            
 0x359 - 7 - 00 00 00 00 00 50 4E                              
