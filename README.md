@@ -4,22 +4,20 @@ Simple Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
-(RHI-3K-48ES-5G) and worked OK for 18 months,as long as did not under discharge.         
+(RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge.         
 The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4. At 20% SoC, the voltage is 51.5V.     
-I noted that at 20% it did not completely disconnect the battery, but took out 42W, so I set force charge at 15%. 
+I noted that at 20% it did not completely disconnect the battery, but discharged 42W, so I set force charge at 15%. 
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
-The other port is a RS485 port with 2 wires A & B, 
+The other port is a RS485 port with 2 wires A & B,           
 I used this port to connect the BMS to the inverter.
 
 HAREWARE                                                                                         
 Arduino Nano, RS485 to UART module, MCP2515 CAN bus module and DC to DC converter.
 
 CODE is based on:  
-https://github.com/bres55/Smart-BMS-arduino-Reader - which has been heavily modified.   
-https://github.com/coryjfowler/MCP_CAN_lib/ - modified to cope with multiple CAN messages
-https://cryptii.com/pipes/integer-encoder - for checking output HEX values 
+https://github.com/bres55/Smart-BMS-arduino-Reader - which has been heavily modified.        https://github.com/coryjfowler/MCP_CAN_lib/ - modified to cope with multiple CAN messages https://cryptii.com/pipes/integer-encoder - for checking output HEX values 
 
 LIBRARY:                                                                                  
 mcp_can.h  - by cory j fowler,  Tried other libraries but they did not communicate with the Solis inverter.
