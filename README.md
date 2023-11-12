@@ -4,7 +4,9 @@ Simple Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
-(RHI-3K-48ES-5G) and working OK for 18 months, but I needed it to control the battery using the SoC, not the voltage.
+(RHI-3K-48ES-5G) and worked OK for 18 months,as long as did not under discharge.         
+The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4. At 20% SoC, the voltage is 51.5V.     
+I noted that at 20% it did not completely disconnect the battery, but took out 42W, so I set force charge at 15%. 
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
@@ -52,15 +54,12 @@ if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ) == CAN_OK) - (must be set to 500BP
 CAN0.setMode(MCP_NORMAL); - (Set to normal mode to allow messages to be transmitted)                            
 SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5V, Gnd) 
 
-float batteryChargeVoltage = 56;                                     
-float ChargeCurrentLimit = 20;                                   
-float DischargeCurrentLimit  = 60;                      
-float StateOfHealth  = 99;                                                          
-
-I used another Nano and MCP2515 to read and check the above on the serial monitor. 
-his must be correct before connecting to the Solis inverter. 
-You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.       
-
+float batteryChargeVoltage = 56; - (BMS set to 57.5V)                                    
+float ChargeCurrentLimit = 20; - (BMS set to 30A)                               
+float DischargeCurrentLimit  = 60; - (BMS set to 65A)                    
+float StateOfHealth  = 99;            
+(The BMS should be set up as safety device if the inverter falls.)
+       
 CAN bus PylonTech Protocol
 ![CAN_bus](https://github.com/martc55/Jbd2Solis/assets/40126951/67f6872c-9eb9-4474-96b6-d12ad9f2befe)
 0x359 - Protection & Alarm flags                                
@@ -71,13 +70,15 @@ CAN bus PylonTech Protocol
 0x35E - Manufacturer name (“PYLON”)                                    
 0x305 - Solis sends this message every second
 
+I used another Nano and MCP2515 to read and check the CAN bus output on the serial monitor,  
+his must be correct before connecting to the Solis inverter. 
+You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.     
+
 SETUP ISSUES                                   
 After setting up as “Pylon LV” the inverter displayed the SoC, Battery Voltage and Current OK, 
-but it over charged the max. battery Charge Voltage of 56V, set in the code. The BMS was set to 57V and 
-stop it over charging further. The BMS should be used as safety device if the inverter falls.
-So I setup the inverter as “User-Define” and it works fine. 
+but it over charged the max. battery Charge Voltage of 56V, set in the code. Need to check the Control Parameter menu because it defaults to 60V.     
 
-INVERTER AS “User-Define”
+INVERTER AS “PYLON-LV”
 ![Solis_Display](https://github.com/martc55/JBD2SOLIS/assets/40126951/f2f5980b-6f6f-4ac2-bbc1-b7ee474fcb04)
 
 USE THIS AT YOUR OWN RISK!                                                             
