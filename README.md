@@ -61,7 +61,7 @@ float StateOfHealth  = 99;
 (The BMS should be set up as safety device if the inverter falls.)
        
 CAN bus PylonTech Protocol
-![CAN_bus](https://github.com/martc55/Jbd2Solis/assets/40126951/67f6872c-9eb9-4474-96b6-d12ad9f2befe)
+![CAN_bus2](https://github.com/martc55/Jbd2Solis/assets/40126951/c49fbcd9-d86c-4adb-a7a8-d5cfb6922707)
 0x359 - Protection & Alarm flags                                
 0x351 - Voltage & Current Limits set up in the code. - 0x30 0x02 = 560V, 0xC8 0x00 = 200A,  0x58 0x02 = 600A (Pylon protocol value x 0.1 factor)                                      
 0x355 - SoC varies - 0x41 0x00 = 65%, and SoH fixed in the code - 0x63 0x00 = 99%                      
@@ -79,7 +79,7 @@ After setting up as “Pylon LV” the inverter displayed the SoC, Battery Volta
 but it over charged the max. battery Charge Voltage of 56V, set in the code. Need to check the Control Parameter menu because it defaults to 60V.     
 
 INVERTER AS “PYLON-LV”
-![Solis_Display](https://github.com/martc55/JBD2SOLIS/assets/40126951/f2f5980b-6f6f-4ac2-bbc1-b7ee474fcb04)
+![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/05b037ef-22c2-42fd-9da6-1e3db0c7c0c1)
 
 USE THIS AT YOUR OWN RISK!                                                             
 LiFePO4 Batteries are one of the safer batteries but can still be DANGEROUS. 
