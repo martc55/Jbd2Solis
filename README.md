@@ -17,7 +17,11 @@ HAREWARE
 Arduino Nano, RS485 to UART module, MCP2515 CAN bus module and DC to DC converter.
 
 CODE is based on:  
-https://github.com/bres55/Smart-BMS-arduino-Reader - which has been heavily modified.        https://github.com/coryjfowler/MCP_CAN_lib/ - modified to cope with multiple CAN messages https://cryptii.com/pipes/integer-encoder - for checking output HEX values 
+https://github.com/bres55/Smart-BMS-arduino-Reader - which has been heavily modified.
+
+https://github.com/coryjfowler/MCP_CAN_lib/ - modified to cope with multiple CAN messages 
+
+https://cryptii.com/pipes/integer-encoder - for checking output HEX values 
 
 LIBRARY:                                                                                  
 mcp_can.h  - by cory j fowler,  Tried other libraries but they did not communicate with the Solis inverter.
