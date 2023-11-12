@@ -1,10 +1,10 @@
 # JBD2SOLIS
-Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using Pylontech CAN bus protocol.
+Simple Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using Pylontech CAN bus protocol.
 
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
-The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on a Solis inverter 
-and working OK for 18 months, but I needed it to control the battery using the SoC, not the voltage.
+The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
+(RHI-3K-48ES-5G) and working OK for 18 months, but I needed it to control the battery using the SoC, not the voltage.
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
@@ -55,20 +55,21 @@ SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5
 float batteryChargeVoltage = 56;                                     
 float ChargeCurrentLimit = 20;                                   
 float DischargeCurrentLimit  = 60;                      
-float StateOfHealth  = 100;                                   
-
-CANbus OUTPUT SAMPLE                                            
-0x359 - 7 - 00 00 00 00 00 50 4E                              
-0x351 - 8 - 38 00 D0 07 70 17 00 00                                            
-0x355 - 4 - 1A 00 64 00                   	                         
-0x356 - 6 - 4E 13 02 03 04 05             	                    
-0x35C - 2 - C0 00                         	                                 
-0x35E - 8 - 50 59 4C 4F 4E 20 20 20       	                                
-0x305 - 8 - 00 00 00 00 00 00 00 00                          
+float StateOfHealth  = 99;                                                          
 
 I used another Nano and MCP2515 to read and check the above on the serial monitor. 
 his must be correct before connecting to the Solis inverter. 
-You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.
+You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.       
+
+CAN bus PylonTech Protocol
+![CAN_bus](https://github.com/martc55/Jbd2Solis/assets/40126951/67f6872c-9eb9-4474-96b6-d12ad9f2befe)
+0x359 - Protection & Alarm flags                                
+0x351 - Voltage & Current Limits set up in the code. - 0x30 0x02 = 560V, 0xC8 0x00 = 200A,  0x58 0x02 = 600A (Pylon protocol value x 0.1 factor)                                      
+0x355 - SoC varies - 0x41 0x00 = 65%, and SoH fixed in the code - 0x63 0x00 = 99%                      
+0x356 - Voltage / Current / Temp - data varies                                      
+0x35C - Battery charge request flags                                      
+0x35E - Manufacturer name (“PYLON”)                                    
+0x305 - Solis sends this message every second
 
 SETUP ISSUES                                   
 After setting up as “Pylon LV” the inverter displayed the SoC, Battery Voltage and Current OK, 
