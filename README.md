@@ -5,8 +5,8 @@ I wanted to send the State of Charge (SoC) of the battery to the inverter
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
 (RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge.         
-The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4. At 20% SoC, the voltage is 51.5V.     
-I noted that at 20% it did not completely disconnect the battery, but discharged 42W, so I set force charge at 15%. 
+The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4. At 20% SoC, my battery voltage is 51.5V.     
+I noted that at 20% it did not completely disconnect the battery, but it continues to discharge at 42W, so I set force charge at 15%. 
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
@@ -56,21 +56,21 @@ if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ) == CAN_OK) - (must be set to 500BP
 CAN0.setMode(MCP_NORMAL); - (Set to normal mode to allow messages to be transmitted)                            
 SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5V, Gnd) 
 
-float batteryChargeVoltage = 56; - (BMS set to 57.5V)                                    
-float ChargeCurrentLimit = 20; - (BMS set to 30A)                               
+float batteryChargeVoltage = 55.5; - (BMS set to 57.5V)                                    
+float ChargeCurrentLimit = 25; - (BMS set to 30A)                               
 float DischargeCurrentLimit  = 60; - (BMS set to 65A)                    
 float StateOfHealth  = 99;            
 (The BMS should be set up as safety device if the inverter falls.)
        
 CAN bus PylonTech Protocol
 ![CAN_bus2](https://github.com/martc55/Jbd2Solis/assets/40126951/c49fbcd9-d86c-4adb-a7a8-d5cfb6922707)
-0x359 - Protection & Alarm flags                                
-0x351 - Voltage & Current Limits set up in the code. - 0x30 0x02 = 560V, 0xC8 0x00 = 200A,  0x58 0x02 = 600A (Pylon protocol value x 0.1 factor)                                      
-0x355 - SoC varies - 0x41 0x00 = 65%, and SoH fixed in the code - 0x63 0x00 = 99%                      
-0x356 - Voltage / Current / Temp - data varies                                      
-0x35C - Battery charge request flags                                      
-0x35E - Manufacturer name (“PYLON”)                                    
-0x305 - Solis sends this message every second
+0x359 - Protection & Alarm flags.                               
+0x351 - Voltage & Current Limits set up in the code.                                     
+0x355 - SoC varies, and SoH fixed in the code.                      
+0x356 - Voltage / Current / Temp. - data varies                                      
+0x35C - Battery charge request flags.                                      
+0x35E - Manufacturer name (“PYLON”).                                    
+0x305 - Solis sends this message every second.
 
 I used another Nano and MCP2515 to read and check the CAN bus output on the serial monitor,  
 his must be correct before connecting to the Solis inverter. 
@@ -78,8 +78,8 @@ You should see 6 packets of data every second, the 7th packet (0x305) only when 
 
 SETUP ISSUES                                   
 After setting up as “Pylon LV” the inverter displayed the SoC, Battery Voltage and Current OK, 
-but it over charged. Had to change the battery Overvoltage to 57.5V, in the Control Parameter menu because it defaults to 60V.   
-Also changed the Battery Undervoltage to 48V and Float Charge to 55.0V, no other changes to the parameters.   
+but it over charged. Had to change the Battery Overvoltage (I call it Charging Voltage) in the Control Parameter menu because it defaults to 60V. If you change it to 55.5V it will not charge to 100%, so I changed it to 57.5V.   
+Also changed the Battery Undervoltage to 48V and Float Charge to 55.0V, no other changes to the Control Parameters.   
 
 BATTERY SETUP AS “PYLON-LV”
 ![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/72230c43-53a4-4ea6-8636-18e93ebbea9f)
