@@ -78,10 +78,11 @@ You should see 6 packets of data every second, the 7th packet (0x305) only when 
 
 SETUP ISSUES                                   
 After setting up as “Pylon LV” the inverter displayed the SoC, Battery Voltage and Current OK, 
-but it over charged the max. battery Charge Voltage of 56V, set in the code. Need to check the Control Parameter menu because it defaults to 60V.     
+but it over charged. Had to change the battery Overvoltage to 57.5V, in the Control Parameter menu because it defaults to 60V.   
+Also changed the Battery Undervoltage to 48V and Float Charge to 55.0V, no other changes to the parameters.   
 
-INVERTER AS “PYLON-LV”
-![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/05b037ef-22c2-42fd-9da6-1e3db0c7c0c1)
+BATTERY SETUP AS “PYLON-LV”
+![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/72230c43-53a4-4ea6-8636-18e93ebbea9f)
 
 USE THIS AT YOUR OWN RISK!                                                             
 LiFePO4 Batteries are one of the safer batteries but can still be DANGEROUS. 
