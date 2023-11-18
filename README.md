@@ -76,7 +76,7 @@ his must be correct before connecting to the Solis inverter.
 You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.      
 
 BATTERY SETUP AS “PYLON-LV”
-![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/72230c43-53a4-4ea6-8636-18e93ebbea9f)
+![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/f142b169-5b99-4e7a-9ec1-8328fc439f86)
 
 USE THIS AT YOUR OWN RISK!                                                             
 LiFePO4 Batteries are one of the safer batteries but can still be DANGEROUS. 
