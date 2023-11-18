@@ -4,7 +4,7 @@ Simple Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
-(RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge. The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4.              
+(RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge. 
 When it gets near to 20% SoC, at my battery voltage is about 51V, under low load. I noted that at 20% it did not completely disconnect the battery, but it continues to discharge about 42W, so I set force charge at 15%. 
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
@@ -23,7 +23,7 @@ https://github.com/coryjfowler/MCP_CAN_lib/ - modified to cope with multiple CAN
 https://cryptii.com/pipes/integer-encoder - for checking output HEX values 
 
 LIBRARY:                                                                                  
-mcp_can.h  - by cory j fowler,  Tried other libraries but they did not communicate with the Solis inverter.
+mcp_can.h  - by cory j fowler,  Tried other libraries but I could not get them to communicate with the Solis inverter.
 
 PYLONTECH Emulation: This consists of six CAN packets once per second. CAN ID – followed by 2 to 8 bytes of data. 
 The data rate is 500kbps 
@@ -59,7 +59,7 @@ float batteryChargeVoltage = 55.5; - (BMS set to 57.5V)
 float ChargeCurrentLimit = 25; - (BMS set to 30A)                               
 float DischargeCurrentLimit  = 60; - (BMS set to 65A)                    
 float StateOfHealth  = 99; - (BMS dos not calculate SoH)           
-(The BMS should be set up as safety device if the inverter falls.)
+(The BMS should be set up as a safety device if the inverter falls.)
        
 CAN bus PylonTech Protocol
 ![CAN_bus2](https://github.com/martc55/Jbd2Solis/assets/40126951/c49fbcd9-d86c-4adb-a7a8-d5cfb6922707)
@@ -75,7 +75,7 @@ I used another Nano and MCP2515 to read and check the CAN bus output on the seri
 his must be correct before connecting to the Solis inverter. 
 You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.      
 
-BATTERY SETUP AS “PYLON-LV”
+BATTERY SETUP AS “PYLON-LV” sample displays
 ![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/f142b169-5b99-4e7a-9ec1-8328fc439f86)
 
 USE THIS AT YOUR OWN RISK!                                                             
