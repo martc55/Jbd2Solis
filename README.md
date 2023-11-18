@@ -4,9 +4,8 @@ Simple Bridge between JBD BMS with a DIY Battery and Solis Hybrid inverter using
 I wanted to send the State of Charge (SoC) of the battery to the inverter 
 to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
-(RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge.         
-The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4. At 20% SoC, my battery voltage is 51.5V.     
-I noted that at 20% it did not completely disconnect the battery, but it continues to discharge at 42W, so I set force charge at 15%. 
+(RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge. The maximum discaharge voltage that can be set was 48V, OK for lead acid batteries but too low LiFePO4.              
+When it gets near to 20% SoC, at my battery voltage is about 51V, under low load. I noted that at 20% it did not completely disconnect the battery, but it continues to discharge about 42W, so I set force charge at 15%. 
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
@@ -59,7 +58,7 @@ SoftwareSerial MySoftSerial(6, 5); - (UART Connections Rx -> D6, Tx -> D5, Vcc 5
 float batteryChargeVoltage = 55.5; - (BMS set to 57.5V)                                    
 float ChargeCurrentLimit = 25; - (BMS set to 30A)                               
 float DischargeCurrentLimit  = 60; - (BMS set to 65A)                    
-float StateOfHealth  = 99;            
+float StateOfHealth  = 99; - (BMS dos not calculate SoH)           
 (The BMS should be set up as safety device if the inverter falls.)
        
 CAN bus PylonTech Protocol
@@ -74,12 +73,7 @@ CAN bus PylonTech Protocol
 
 I used another Nano and MCP2515 to read and check the CAN bus output on the serial monitor,  
 his must be correct before connecting to the Solis inverter. 
-You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.     
-
-SETUP ISSUES                                   
-After setting up as “Pylon LV” the inverter displayed the SoC, Battery Voltage and Current OK, 
-but it over charged. Had to change the Battery Overvoltage (I call it Charging Voltage) in the Control Parameter menu because it defaults to 60V. If you change it to 55.5V it will not charge to 100%, so I changed it to 57.5V.   
-Also changed the Battery Undervoltage to 48V and Float Charge to 55.0V, no other changes to the Control Parameters.   
+You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.      
 
 BATTERY SETUP AS “PYLON-LV”
 ![Solis_Displays](https://github.com/martc55/Jbd2Solis/assets/40126951/72230c43-53a4-4ea6-8636-18e93ebbea9f)
