@@ -18,7 +18,7 @@
 // CAN ID – followed by 2 to 8 bytes of data:
 // example:
 // 0x359 – 7 - 00 00 00 00 00 50 4E          – (7) Protection & Alarm flags
-// 0x351 – 8 - 14 02 74 0E 74 0E CC 01       – (8) Battery voltage + current limits
+// 0x351 – 8 - 38 00 D0 07 70 17 00 00       – (8) Battery voltage + current limits
 // 0x355 – 4 - 1A 00 64 00                   – (4) State of Charge (SOC) / State of Health (SOH)
 // 0x356 – 6 - 4E 13 02 03 04 05             – (6) Voltage / Current / Temp
 // 0x35C – 2 - C0 00                         – (2) Battery charge request flags
@@ -31,7 +31,6 @@
 
 #include <SPI.h>
 #include <Wire.h>
-//#include <Adafruit_GFX.h>
 
 #include <mcp_can.h>
 MCP_CAN CAN0(10);                     // Set CS to pin 10
@@ -64,10 +63,11 @@ bool AFEerror = 0;                 // Optional
 const word  maxDev = 250;          // maximum deviation of SOC, to reduce fluctuations in SoC.
 word RSOC, SOC, PSOC;              // RSOC (State of Charge from BMS), SOC (Output), PSOC (previous reading)
 
-float batteryChargeVoltage = 56;   // BMS set to 57V (BMS higher for safety)
-float ChargeCurrentLimit = 20;     // BMS set to 40A 
-float DischargeCurrentLimit  = 60; // BMS set to 65A 
-float StateOfHealth  = 100;        // manually set to 99-100%
+// ****** This limits are to suit this battery *******
+float batteryChargeVoltage = 55.5;   // BMS set to 57V (BMS higher for safety)
+float ChargeCurrentLimit = 25;       // BMS set to 30A 
+float DischargeCurrentLimit = 60;    // BMS set to 65A 
+float StateOfHealth = 99;            // can be set to 99-100% (BMS does not have this data)
 
 // **************** CAN Timings ******************
 unsigned long previousMillisCAN = 0;   // will store last time a CAN package was send
