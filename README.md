@@ -6,7 +6,7 @@ to give greater control. I have a DIY 16 cell LiFePO4 battery (about 4.5kWh).
 The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery on my Solis inverter 
 (RHI-3K-48ES-5G) and worked OK for 18 months, as long as you don't over discharge. Maximum discharge setting was 48V, which could leave some cells too low. 
 
-Now when it gets near to 20% SoC my battery voltage is about 51V, under low load. I noted that at 20% it did not completely disconnect the battery, but it continues to discharge about 42W, so I set force charge at 15%. This gives it time to balance out the cells.
+Now when it gets near to 20% SoC my battery voltage is about 51V, under low load. I noted that at 20% it did not completely disconnect the battery, but it continues to discharge about 42W, so I set force charge at 15%. This can give it time to balance out the cells.
 
 BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
@@ -15,7 +15,7 @@ I used this port to connect the BMS to the inverter.
 
 HAREWARE                                                                                         
 Arduino Nano, RS485 to UART module, MCP2515 CAN bus module and DC to DC converter.
-
+![Jbd2Solis](https://github.com/martc55/Jbd2Solis/assets/40126951/119fc242-0297-488e-8c0b-7941110705e3)
 CODE is based on:  
 https://github.com/bres55/Smart-BMS-arduino-Reader - which has been heavily modified.
 
@@ -27,17 +27,15 @@ LIBRARY:
 mcp_can.h  - by cory j fowler,  Tried other libraries but I could not get them to communicate with the Solis inverter.
 
 PYLONTECH Emulation: This consists of six CAN packets once per second. CAN ID – followed by 2 to 8 bytes of data. 
-The data rate is 500kbps 
-
+The data rate is 500kbps. 
 SCHEMATIC
-![JBD BMS2CAN Solis](https://github.com/martc55/Jbd2Solis/assets/40126951/74f216cd-689f-4e77-945b-1ba37a0910ea)
-
+![JBD BMS2CAN Solis](https://github.com/martc55/Jbd2Solis/assets/40126951/ac007eb8-3bbc-4eb3-8907-0f3e7eb8925f)
 MCP2515 MODULE                                                                                            
 The MCP2515 module is a CAN interface which communicates with the Nano via SPI. It is powered from 5V, same as the Nano.  J1 is for enabling the terminator resistor so  leave it connected. J2 is for the connection to the CAN bus. I have designed a PCB that connects all modules, and had to reverse all pin connections by re soldering the pins. The J3 now connects to the RJ45 socket on the PCB.
 Output pins SCK -> D13,  SI -> D11,  SO -> D12,  CS -> D10 on the Nano.
 
 RS485 to UART MODULE                                                                                   
-Input side it has 3 pins, A and B plus an earth (not ground). If the RS485 communication cable runs outside the building then this pin should be connected to earth. I ignored this connection.
+Input side it has 3 pins, A and B plus an earth (not ground). If the RS485 communication cable runs outside the building then this pin should be connected to earth. I ignored this connection. Need to solder a connection for a 12R terminator.
 Output can be either 5V or 3.3V but I used 5V to make it common with the other componance.
 Tx -> D5 and Rx -> D6 on the Nano.
 
