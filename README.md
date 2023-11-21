@@ -29,7 +29,7 @@ mcp_can.h  - by cory j fowler,  Tried other libraries but I could not get them t
 PYLONTECH Emulation: This consists of six CAN packets once per second. CAN ID – followed by 2 to 8 bytes of data. 
 The data rate is 500kbps. 
 SCHEMATIC
-See image 
+See image Solis_Sch.jpg
 MCP2515 MODULE                                                                                            
 The MCP2515 module is a CAN interface which communicates with the Nano via SPI. It is powered from 5V, same as the Nano.  J1 is for enabling the terminator resistor so  leave it connected. J2 is for the connection to the CAN bus. I have designed a PCB that connects all modules, and had to reverse all pin connections by re soldering the pins. The J3 now connects to the RJ45 socket on the PCB.
 Output pins SCK -> D13,  SI -> D11,  SO -> D12,  CS -> D10 on the Nano.
@@ -75,7 +75,8 @@ I used another Nano and MCP2515 to read and check the CAN bus output on the seri
 his must be correct before connecting to the Solis inverter. 
 You should see 6 packets of data every second, the 7th packet (0x305) only when connected to the inverter.      
 
-BATTERY SETUP AS “PYLON-LV” sample displays
+BATTERY SETUP AS “PYLON-LV” 
+See image 
 
 USE THIS AT YOUR OWN RISK!                                                             
 LiFePO4 Batteries are one of the safer batteries but can still be DANGEROUS. 
