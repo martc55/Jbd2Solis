@@ -8,7 +8,7 @@ The BMS used is the JBD-SP25S003-L16S-100A. It was setup as a lead acid battery 
 
 Now when it gets near to 20% SoC my battery voltage is about 51V, under low load. I noted that at 20% it did not completely disconnect the battery, but it continues to discharge about 42W, so I set force charge at 15%. This can give it time to balance out the cells.
 
-BMS has 2 output ports, One UART for BT module and I use the app to log the voltage and current data. 
+BMS has 2 output ports, One UART for BlueTooth module and I use the app to log the voltage and current data. 
 I can also use the app to change the default properties of the BMS. 
 The other port is a RS485 port with 2 wires A & B,           
 I used this port to connect the BMS to the inverter.
