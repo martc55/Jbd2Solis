@@ -27,7 +27,7 @@
 // 0x305 - 8 - 00 00 00 00 00 00 00 00       - (8) Sent every once second from Solis Inverter
 // ***************************************************
 
-// Revised 09/11/23, Tested on Solis Inverter on 13/10/23
+// Tested on Solis Inverter on 13/10/23
 
 #include <SPI.h>
 #include <Wire.h>
@@ -60,8 +60,7 @@ float Temp_probe_2 = 0;            // Optional
 bool chargeFet = 0;                // Optional
 bool dischargeFet = 0;             // Optional
 bool AFEerror = 0;                 // Optional
-const word  maxDev = 250;          // maximum deviation of SOC, to reduce fluctuations in SoC.
-word RSOC, SOC, PSOC;              // RSOC (State of Charge from BMS), SOC (Output), PSOC (previous reading)
+int SOC = 0;
 
 // ****** This limits are to suit this battery *******
 float batteryChargeVoltage = 55.5;   // BMS set to 57V (BMS higher for safety)
@@ -86,7 +85,8 @@ void setup()   {
   Serial.println("Error Initializing MCP2515...");
   
   CAN0.setMode(MCP_NORMAL);      // Set to normal mode to allow messages to be transmitted
-  
+
+ 
 } // setup ends
 
 // PYLONTECH Protocol defaults values
