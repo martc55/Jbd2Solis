@@ -35,14 +35,7 @@ void Get_Data()            // DATA FROM JDB BMS
 
   
 // STATE OF CHARGE AS A PERCENTAGE
-  RSOC = (inInts[19]);
-  int deviation = RSOC + PSOC;                 // To reduce fluctuations in RSOC data
-  if (abs(deviation) <= maxDev){               // Maximum deviation of (default 250)
-   SOC = RSOC;                                 // RSOC input, PSOC previous, SOC output
-    PSOC = RSOC;
-  }else{
-    SOC = PSOC;                                
-  } 
+  SOC = (inInts[19]);
   
 // BATERY VOLTAGE   (16 bit, high and low)
   highbyte = (inInts[0]);                     // bytes 0 and 1
@@ -68,7 +61,7 @@ void Get_Data()            // DATA FROM JDB BMS
   float Temp_1 = two_ints_into16(highbyte, lowbyte);
   Temp_probe_1 = (Temp_1 - 2731) / 10.0f;   // convert to float and leave at 2 dec places
   if (Temp_probe_1 < -3 || Temp_probe_1 > 50) {
-    Temp_probe_1 = 20;                      // to prevent random values sent to the inverter
+    Temp_probe_1 = 0;                      // to prevent random values sent to the inverter
   }
   
 // TEMPERATURE 2 - Optional
